@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 import { HeroService } from '../../hero.service';
 import { HeroModel } from '../../models/hero.model';
 
@@ -13,6 +13,7 @@ import { HeroModel } from '../../models/hero.model';
 export class HeroListComponent implements OnDestroy {
   public heroes: HeroModel[] = [];
   public form: FormGroup;
+  public isPending = false;
   private subscription = new Subscription();
 
   constructor(
@@ -23,10 +24,15 @@ export class HeroListComponent implements OnDestroy {
       name: ['', Validators.required]
     });
 
+    this.isPending = true;
+
     this.subscription.add(
       this.heroService
         .getHeroes()
-        .pipe(take(1))
+        .pipe(
+          take(1),
+          finalize(() => (this.isPending = false))
+        )
         .subscribe(heroes => {
           this.heroes = heroes;
         })
@@ -37,29 +43,41 @@ export class HeroListComponent implements OnDestroy {
     const nameControl = this.form.get('name');
     const hero = new HeroModel(nameControl.value);
 
-    this.heroService
-      .addHero(hero)
-      .pipe(take(1))
-      .subscribe(newHero => {
-        this.heroes.push(newHero);
-      });
-
+    this.isPending = true;
+    this.subscription.add(
+      this.heroService
+        .addHero(hero)
+        .pipe(finalize(() => (this.isPending = false)))
+        .subscribe(newHero => {
+          this.heroes.push(newHero);
+        })
+    );
     nameControl.setValue('');
   }
 
   public removeHero(hero: HeroModel): void {
+    this.isPending = true;
+
     this.subscription.add(
-      this.heroService.removeHero(hero).subscribe(() => {
-        this.heroes = this.heroes.filter(val => val.id !== hero.id);
-      })
+      this.heroService
+        .removeHero(hero)
+        .pipe(finalize(() => (this.isPending = false)))
+        .subscribe(() => {
+          this.heroes = this.heroes.filter(val => val.id !== hero.id);
+        })
     );
   }
 
   public updateHero(hero: HeroModel): void {
+    this.isPending = true;
+
     this.subscription.add(
-      this.heroService.updateHero(hero).subscribe(hero => {
-        console.log('update success', hero);
-      })
+      this.heroService
+        .updateHero(hero)
+        .pipe(finalize(() => (this.isPending = false)))
+        .subscribe(hero => {
+          console.log('update success', hero);
+        })
     );
   }
 
