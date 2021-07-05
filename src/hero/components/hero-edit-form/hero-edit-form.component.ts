@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeroModel } from '../../models/hero.model';
 
@@ -7,12 +7,14 @@ import { HeroModel } from '../../models/hero.model';
   templateUrl: './hero-edit-form.component.html',
   styleUrls: ['./hero-edit-form.component.css']
 })
-export class HeroEditFormComponent {
+export class HeroEditFormComponent implements OnInit {
   @Output() submitForm = new EventEmitter<HeroModel>();
   @Input() hero: HeroModel;
   public form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder) { }
+
+  public ngOnInit(): void {
     this.form = this.formBuilder.group({
       name: [this.hero.name, Validators.required]
     });

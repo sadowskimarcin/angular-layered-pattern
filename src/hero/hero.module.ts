@@ -5,7 +5,6 @@ import { HeroListComponent } from './containers/hero-list/hero-list.component';
 import { HeroListRecordComponent } from './components/hero-list-record/hero-list-record.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { HeroFacade } from './hero.facade';
 import { HeroAddFormComponent } from './components/hero-add-form/hero-add-form.component';
 import { HeroEditFormComponent } from './components/hero-edit-form/hero-edit-form.component';
 
@@ -17,7 +16,7 @@ import { HeroEditFormComponent } from './components/hero-edit-form/hero-edit-for
     HeroAddFormComponent,
     HeroEditFormComponent
   ],
-  providers: [HeroService, HeroFacade],
+  providers: [HeroService],
   exports: [HeroListComponent]
 })
 export class HeroModule {}

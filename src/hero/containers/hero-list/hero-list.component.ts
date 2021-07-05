@@ -1,10 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { HeroFacade } from '../../hero.facade';
 import { HeroService } from '../../hero.service';
 import { HeroAddData } from '../../models/hero-add-data';
-import { HeroEditData } from '../../models/hero-edit-data';
 import { HeroModel } from '../../models/hero.model';
 
 @Component({
@@ -16,10 +14,7 @@ export class HeroListComponent implements OnDestroy {
   public heroes: HeroModel[] = [];
   private subscription = new Subscription();
 
-  constructor(
-    private heroFacade: HeroFacade,
-    private heroService: HeroService
-  ) {
+  constructor(private heroService: HeroService) {
     this.subscription.add(
       this.heroService
         .getHeroes()
@@ -44,13 +39,12 @@ export class HeroListComponent implements OnDestroy {
   public removeHero(hero: HeroModel): void {
     this.subscription.add(
       this.heroService.removeHero(hero).subscribe(() => {
-        const heroIndex = this.heroes.findIndex(val => val.id === hero.id);
-        delete this.heroes[heroIndex];
+        this.heroes = this.heroes.filter(val => val.id !== hero.id);
       })
     );
   }
 
-  public updateHero(hero: HeroEditData): void {
+  public updateHero(hero: HeroModel): void {
     this.subscription.add(this.heroService.updateHero(hero).subscribe());
   }
 
