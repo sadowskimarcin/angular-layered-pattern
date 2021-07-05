@@ -10,7 +10,7 @@ import { HeroModel } from '../hero/models/hero.model';
 export class AppComponent {
   constructor(private heroFacade: HeroFacade) {}
 
-  public add(): void {
+  public addHero(): void {
     const hero = new HeroModel('Vladimir');
 
     this.heroFacade.addHero(hero);
