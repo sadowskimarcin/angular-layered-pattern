@@ -1,0 +1,7 @@
+<div>
+  <form [formGroup]="form" (ngSubmit)="update()">
+    <input formControlName="name">
+    (#{{ hero.id }})
+    <button type="submit">update hero</button>
+  </form>
+</div>

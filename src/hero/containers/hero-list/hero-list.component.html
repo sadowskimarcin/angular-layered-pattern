@@ -1,0 +1,11 @@
+<app-hero-list-record
+  *ngFor="let hero of heroes"
+  [hero]="hero"
+></app-hero-list-record>
+
+<br><br>
+
+<form [formGroup]="form" (ngSubmit)="addHero()">
+  Imię: <input formControlName="name"><br>
+  <button>add hero</button>
+</form>
