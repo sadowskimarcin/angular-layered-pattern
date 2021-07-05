@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HeroAddFormComponent } from './components/hero-add-form/hero-add-form.component';
 import { HeroEditFormComponent } from './components/hero-edit-form/hero-edit-form.component';
+import { HeroState } from './state/hero.state';
+import { HeroFacade } from './hero.facade';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
@@ -16,7 +18,7 @@ import { HeroEditFormComponent } from './components/hero-edit-form/hero-edit-for
     HeroAddFormComponent,
     HeroEditFormComponent
   ],
-  providers: [HeroService],
+  providers: [HeroService, HeroState, HeroFacade],
   exports: [HeroListComponent]
 })
 export class HeroModule {}

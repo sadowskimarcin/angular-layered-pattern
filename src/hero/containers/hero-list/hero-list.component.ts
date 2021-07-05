@@ -1,7 +1,7 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { HeroService } from '../../hero.service';
+import { HeroFacade } from '../../hero.facade';
 import { HeroAddData } from '../../models/hero-add-data';
 import { HeroModel } from '../../models/hero.model';
 
@@ -10,48 +10,29 @@ import { HeroModel } from '../../models/hero.model';
   templateUrl: './hero-list.component.html',
   styleUrls: ['./hero-list.component.scss']
 })
-export class HeroListComponent implements OnDestroy {
-  public heroes: HeroModel[] = [];
-  private subscription = new Subscription();
+export class HeroListComponent {
+  public heroes$: Observable<HeroModel[]> = this.heroFacade.getHeroes$();
+  public isPending$: Observable<boolean> = this.heroFacade.isPending$();
 
-  constructor(private heroService: HeroService) {
-    this.subscription.add(
-      this.heroService
-        .getHeroes()
-        .pipe(take(1))
-        .subscribe(heroes => {
-          this.heroes = heroes;
-        })
-    );
+  constructor(private heroFacade: HeroFacade) {
+    this.heroFacade.loadHeroes().toPromise();
   }
 
   public addHero(heroData: HeroAddData): void {
     const hero = new HeroModel(heroData.name);
-
-    this.subscription.add(
-      this.heroService.addHero(hero).subscribe(newHero => {
-        this.heroes.push(newHero);
-      })
-    );
+    this.heroFacade.addHero(hero).toPromise();
   }
 
   public removeHero(hero: HeroModel): void {
-    this.subscription.add(
-      this.heroService.removeHero(hero).subscribe(() => {
-        this.heroes = this.heroes.filter(val => val.id !== hero.id);
-      })
-    );
+    this.heroFacade.removeHero(hero).toPromise();
   }
 
   public updateHero(hero: HeroModel): void {
-    this.subscription.add(
-      this.heroService.updateHero(hero).subscribe(hero => {
+    this.heroFacade
+      .updateHero(hero)
+      .pipe(take(1))
+      .subscribe(hero => {
         console.log('update success', hero);
-      })
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+      });
   }
 }

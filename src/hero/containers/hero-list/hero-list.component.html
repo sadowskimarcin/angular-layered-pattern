@@ -1,12 +1,10 @@
-<app-hero-list-record
-  *ngFor="let hero of heroes"
-  [hero]="hero"
-  (update)="updateHero($event)"
-  (remove)="removeHero($event)"
-></app-hero-list-record>
+<app-hero-list-record *ngFor="let hero of heroes$ | async" [hero]="hero" (update)="updateHero($event)"
+  (remove)="removeHero($event)"></app-hero-list-record>
 
 <br><br>
 
-<app-hero-add-form
-  (submitForm)="addHero($event)"
-></app-hero-add-form>
+<div *ngIf="isPending$ | async">loading....</div>
+
+<br><br>
+
+<app-hero-add-form (submitForm)="addHero($event)"></app-hero-add-form>
