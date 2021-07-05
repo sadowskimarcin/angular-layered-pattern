@@ -1,7 +1,8 @@
 <div>
-  <form [formGroup]="form" (ngSubmit)="update()">
+  <form [formGroup]="form" (ngSubmit)="updateHero()" style="display: inline-block">
     <input formControlName="name">
     (#{{ hero.id }})
-    <button type="submit">update hero</button>
+    <button type="submit">update</button>
   </form>
+  <button (click)="removeHero()">remove</button>
 </div>

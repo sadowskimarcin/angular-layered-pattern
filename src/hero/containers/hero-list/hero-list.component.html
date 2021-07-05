@@ -1,6 +1,8 @@
 <app-hero-list-record
   *ngFor="let hero of heroes"
   [hero]="hero"
+  (update)="updateHero($event)"
+  (remove)="removeHero($event)"
 ></app-hero-list-record>
 
 <br><br>

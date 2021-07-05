@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HeroService } from '../../hero.service';
 import { HeroModel } from '../../models/hero.model';
 
 @Component({
@@ -10,12 +9,11 @@ import { HeroModel } from '../../models/hero.model';
 })
 export class HeroListRecordComponent implements OnInit {
   @Input() public hero: HeroModel;
+  @Output() public update = new EventEmitter<HeroModel>();
+  @Output() public remove = new EventEmitter<HeroModel>();
   public form: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private heroService: HeroService
-  ) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -23,11 +21,12 @@ export class HeroListRecordComponent implements OnInit {
     });
   }
 
-  public update(): void {
+  public updateHero(): void {
     this.hero.name = this.form.get('name').value;
+    this.update.emit(this.hero);
+  }
 
-    this.heroService.updateHero(this.hero).subscribe(heros => {
-      console.log(heros);
-    });
+  public removeHero(): void {
+    this.remove.emit(this.hero);
   }
 }

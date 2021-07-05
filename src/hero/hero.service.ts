@@ -6,6 +6,7 @@ import { HeroModel } from './models/hero.model';
 @Injectable()
 export class HeroService {
   private apiUrl = 'https://60e2b8149103bd0017b474cc.mockapi.io/';
+  public heroes: HeroModel[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -23,5 +24,9 @@ export class HeroService {
     return this.http.put<HeroModel>(this.apiUrl + 'hero/' + hero.id, {
       name: hero.name
     });
+  }
+
+  public removeHero(hero: HeroModel): Observable<HeroModel> {
+    return this.http.delete<HeroModel>(this.apiUrl + 'hero/' + hero.id);
   }
 }

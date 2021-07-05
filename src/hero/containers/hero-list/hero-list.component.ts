@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { HeroService } from '../../hero.service';
 import { HeroModel } from '../../models/hero.model';
@@ -24,25 +24,40 @@ export class HeroListComponent implements OnDestroy {
     });
 
     this.subscription.add(
-      this.heroService.getHeroes().subscribe(heroes => {
-        this.heroes = heroes;
-      })
+      this.heroService
+        .getHeroes()
+        .pipe(take(1))
+        .subscribe(heroes => {
+          this.heroes = heroes;
+        })
     );
   }
 
   public addHero(): void {
     const nameControl = this.form.get('name');
-
     const hero = new HeroModel(nameControl.value);
 
     this.heroService
       .addHero(hero)
       .pipe(take(1))
-      .subscribe(heros => {
-        this.heroes.push(heros);
+      .subscribe(newHero => {
+        this.heroes.push(newHero);
       });
 
     nameControl.setValue('');
+  }
+
+  public removeHero(hero: HeroModel): void {
+    this.subscription.add(
+      this.heroService.removeHero(hero).subscribe(() => {
+        const heroIndex = this.heroes.findIndex(val => val.id === hero.id);
+        delete this.heroes[heroIndex];
+      })
+    );
+  }
+
+  public updateHero(hero: HeroModel): void {
+    this.subscription.add(this.heroService.updateHero(hero).subscribe());
   }
 
   public ngOnDestroy(): void {
