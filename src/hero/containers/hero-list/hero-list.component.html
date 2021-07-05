@@ -7,6 +7,10 @@
 
 <br><br>
 
+<div *ngIf="isPending">loading....</div>
+
+<br><br>
+
 <app-hero-add-form
   (submitForm)="addHero($event)"
 ></app-hero-add-form>

@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 import { HeroService } from '../../hero.service';
 import { HeroAddData } from '../../models/hero-add-data';
 import { HeroModel } from '../../models/hero.model';
@@ -12,13 +12,18 @@ import { HeroModel } from '../../models/hero.model';
 })
 export class HeroListComponent implements OnDestroy {
   public heroes: HeroModel[] = [];
+  public isPending = false;
   private subscription = new Subscription();
 
   constructor(private heroService: HeroService) {
+    this.isPending = true;
     this.subscription.add(
       this.heroService
         .getHeroes()
-        .pipe(take(1))
+        .pipe(
+          take(1),
+          finalize(() => (this.isPending = false))
+        )
         .subscribe(heroes => {
           this.heroes = heroes;
         })
@@ -27,27 +32,41 @@ export class HeroListComponent implements OnDestroy {
 
   public addHero(heroData: HeroAddData): void {
     const hero = new HeroModel(heroData.name);
+    this.isPending = true;
 
     this.subscription.add(
-      this.heroService.addHero(hero).subscribe(newHero => {
-        this.heroes.push(newHero);
-      })
+      this.heroService
+        .addHero(hero)
+        .pipe(finalize(() => (this.isPending = false)))
+        .subscribe(newHero => {
+          this.heroes.push(newHero);
+        })
     );
   }
 
   public removeHero(hero: HeroModel): void {
+    this.isPending = true;
+
     this.subscription.add(
-      this.heroService.removeHero(hero).subscribe(() => {
-        this.heroes = this.heroes.filter(val => val.id !== hero.id);
-      })
+      this.heroService
+        .removeHero(hero)
+        .pipe(finalize(() => (this.isPending = false)))
+        .subscribe(() => {
+          this.heroes = this.heroes.filter(val => val.id !== hero.id);
+        })
     );
   }
 
   public updateHero(hero: HeroModel): void {
+    this.isPending = true;
+
     this.subscription.add(
-      this.heroService.updateHero(hero).subscribe(hero => {
-        console.log('update success', hero);
-      })
+      this.heroService
+        .updateHero(hero)
+        .pipe(finalize(() => (this.isPending = false)))
+        .subscribe(hero => {
+          console.log('update success', hero);
+        })
     );
   }
 
