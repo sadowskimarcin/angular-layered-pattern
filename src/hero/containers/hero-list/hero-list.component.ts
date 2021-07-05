@@ -50,8 +50,7 @@ export class HeroListComponent implements OnDestroy {
   public removeHero(hero: HeroModel): void {
     this.subscription.add(
       this.heroService.removeHero(hero).subscribe(() => {
-        const heroIndex = this.heroes.findIndex(val => val.id === hero.id);
-        delete this.heroes[heroIndex];
+        this.heroes = this.heroes.filter(val => val.id !== hero.id);
       })
     );
   }

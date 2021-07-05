@@ -1,9 +1,9 @@
-<app-hero-list-record
-  *ngFor="let hero of heroes"
-  [hero]="hero"
-  (update)="updateHero($event)"
-  (remove)="removeHero($event)"
-></app-hero-list-record>
+<div *ngFor="let hero of heroes">
+  <input [(ngModel)]="hero.name">
+  (#{{ hero.id }})
+  <button (click)="updateHero(hero)">update</button>
+  <button (click)="removeHero(hero)">remove</button>
+</div>
 
 <br><br>
 
