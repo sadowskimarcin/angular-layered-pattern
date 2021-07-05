@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { HeroFacade } from '../hero/hero.facade';
 import { HeroModel } from '../hero/models/hero.model';
 
@@ -11,6 +12,11 @@ export class AppComponent {
   constructor(private heroFacade: HeroFacade) {}
 
   public add(): void {
-    this.heroFacade.addHero(new HeroModel('Vladimir'));
+    const hero = new HeroModel('Vladimir');
+
+    this.heroFacade
+      .addHero(hero)
+      .pipe(take(1))
+      .subscribe();
   }
 }
