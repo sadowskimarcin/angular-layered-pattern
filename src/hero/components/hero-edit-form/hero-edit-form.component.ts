@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeroEditData } from '../../models/hero-edit-data';
 
 @Component({
-  selector: 'app-hero-edit',
+  selector: 'app-hero-edit-form',
   templateUrl: './hero-edit-form.component.html',
   styleUrls: ['./hero-edit-form.component.css']
 })

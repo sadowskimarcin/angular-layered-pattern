@@ -1,7 +1,7 @@
 <div>
-  <app-hero-edit
+  <app-hero-edit-form
     (submitForm)="updateHero($event)"
-  ></app-hero-edit>
+  ></app-hero-edit-form>
   (#{{ hero.id }})
   <button (click)="removeHero()">remove</button>
 </div>
