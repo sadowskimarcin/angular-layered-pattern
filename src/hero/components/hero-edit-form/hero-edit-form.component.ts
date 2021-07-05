@@ -12,12 +12,13 @@ export class HeroEditFormComponent implements OnInit {
   @Input() hero: HeroModel;
   public form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.form = this.formBuilder.group({
       name: [this.hero.name, Validators.required]
     });
+    console.log(this.hero);
   }
 
   public submit(): void {
