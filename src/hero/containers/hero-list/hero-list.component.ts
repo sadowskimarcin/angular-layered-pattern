@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Component, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { HeroFacade } from '../../hero.facade';
 import { HeroAddData } from '../../models/hero-add-data';
 import { HeroModel } from '../../models/hero.model';
@@ -10,29 +9,35 @@ import { HeroModel } from '../../models/hero.model';
   templateUrl: './hero-list.component.html',
   styleUrls: ['./hero-list.component.scss']
 })
-export class HeroListComponent {
+export class HeroListComponent implements OnDestroy {
   public heroes$: Observable<HeroModel[]> = this.heroFacade.getHeroes$();
   public isPending$: Observable<boolean> = this.heroFacade.isPending$();
 
+  private subscription = new Subscription();
+
   constructor(private heroFacade: HeroFacade) {
-    this.heroFacade.loadHeroes().toPromise();
+    this.subscription.add(this.heroFacade.loadHeroes().subscribe());
   }
 
   public addHero(heroData: HeroAddData): void {
     const hero = new HeroModel(heroData.name);
-    this.heroFacade.addHero(hero).toPromise();
+
+    this.subscription.add(this.heroFacade.addHero(hero).subscribe());
   }
 
   public removeHero(hero: HeroModel): void {
-    this.heroFacade.removeHero(hero).toPromise();
+    this.subscription.add(this.heroFacade.removeHero(hero).subscribe());
   }
 
   public updateHero(hero: HeroModel): void {
-    this.heroFacade
-      .updateHero(hero)
-      .pipe(take(1))
-      .subscribe(hero => {
+    this.subscription.add(
+      this.heroFacade.updateHero(hero).subscribe(hero => {
         console.log('update success', hero);
-      });
+      })
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { finalize, take, tap } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { HeroService } from './hero.service';
 import { HeroModel } from './models/hero.model';
 import { HeroState } from './state/hero.state';
