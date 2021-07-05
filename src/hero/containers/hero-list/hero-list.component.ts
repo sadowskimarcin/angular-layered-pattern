@@ -28,12 +28,11 @@ export class HeroListComponent implements OnDestroy {
   public addHero(heroData: HeroAddData): void {
     const hero = new HeroModel(heroData.name);
 
-    this.heroService
-      .addHero(hero)
-      .pipe(take(1))
-      .subscribe(newHero => {
+    this.subscription.add(
+      this.heroService.addHero(hero).subscribe(newHero => {
         this.heroes.push(newHero);
-      });
+      })
+    );
   }
 
   public removeHero(hero: HeroModel): void {
