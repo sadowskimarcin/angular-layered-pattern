@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HeroEditData } from '../../models/hero-edit-data';
+import { HeroModel } from '../../models/hero.model';
 
 @Component({
   selector: 'app-hero-edit-form',
@@ -8,20 +8,20 @@ import { HeroEditData } from '../../models/hero-edit-data';
   styleUrls: ['./hero-edit-form.component.css']
 })
 export class HeroEditFormComponent {
-  @Output() submitForm = new EventEmitter<HeroEditData>();
+  @Output() submitForm = new EventEmitter<HeroModel>();
+  @Input() hero: HeroModel;
   public form: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
-      name: ['', Validators.required]
+      name: [this.hero.name, Validators.required]
     });
   }
 
   public submit(): void {
-    const nameControl = this.form.get('name');
-
     this.submitForm.emit({
-      name: nameControl.value
+      ...this.hero,
+      name: this.form.get('name').value
     });
   }
 }

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { HeroEditData } from '../../models/hero-edit-data';
 import { HeroModel } from '../../models/hero.model';
 
 @Component({
@@ -8,11 +9,11 @@ import { HeroModel } from '../../models/hero.model';
 })
 export class HeroListRecordComponent {
   @Input() public hero: HeroModel;
-  @Output() public update = new EventEmitter<HeroModel>();
+  @Output() public update = new EventEmitter<HeroEditData>();
   @Output() public remove = new EventEmitter<HeroModel>();
 
-  public updateHero(): void {
-    this.update.emit(this.hero);
+  public updateHero(hero: HeroEditData): void {
+    this.update.emit(hero);
   }
 
   public removeHero(): void {

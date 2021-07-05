@@ -1,5 +1,6 @@
 <div>
   <app-hero-edit-form
+    [hero]="hero"
     (submitForm)="updateHero($event)"
   ></app-hero-edit-form>
   (#{{ hero.id }})

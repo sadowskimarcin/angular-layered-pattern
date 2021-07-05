@@ -4,6 +4,7 @@ import { take } from 'rxjs/operators';
 import { HeroFacade } from '../../hero.facade';
 import { HeroService } from '../../hero.service';
 import { HeroAddData } from '../../models/hero-add-data';
+import { HeroEditData } from '../../models/hero-edit-data';
 import { HeroModel } from '../../models/hero.model';
 
 @Component({
@@ -49,7 +50,7 @@ export class HeroListComponent implements OnDestroy {
     );
   }
 
-  public updateHero(hero: HeroModel): void {
+  public updateHero(hero: HeroEditData): void {
     this.subscription.add(this.heroService.updateHero(hero).subscribe());
   }
 
