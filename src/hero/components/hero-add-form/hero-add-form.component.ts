@@ -4,8 +4,8 @@ import { HeroAddData } from '../../models/hero-add-data';
 
 @Component({
   selector: 'app-hero-add-form',
-  templateUrl: './hero-add.component.html',
-  styleUrls: ['./hero-add.component.css']
+  templateUrl: './hero-add-form.component.html',
+  styleUrls: ['./hero-add-form.component.css']
 })
 export class HeroAddFormComponent {
   @Output() submitForm = new EventEmitter<HeroAddData>();

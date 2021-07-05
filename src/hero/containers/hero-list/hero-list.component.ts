@@ -1,16 +1,15 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { HeroFacade } from '../../hero.facade';
 import { HeroService } from '../../hero.service';
-import { HeroFormData } from '../../models/hero-form-data';
+import { HeroAddData } from '../../models/hero-add-data';
 import { HeroModel } from '../../models/hero.model';
 
 @Component({
   selector: 'app-hero-list',
   templateUrl: './hero-list.component.html',
-  styleUrls: ['./hero-list.component.scss'],
+  styleUrls: ['./hero-list.component.scss']
 })
 export class HeroListComponent implements OnDestroy {
   public heroes: HeroModel[] = [];
@@ -30,7 +29,7 @@ export class HeroListComponent implements OnDestroy {
     );
   }
 
-  public addHero(heroData: HeroFormData): void {
+  public addHero(heroData: HeroAddData): void {
     const hero = new HeroModel(heroData.name);
 
     this.heroService
