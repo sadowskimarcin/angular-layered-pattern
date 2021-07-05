@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeroModel } from '../../models/hero.model';
 
 @Component({
   selector: 'app-hero-edit-form',
   templateUrl: './hero-edit-form.component.html',
-  styleUrls: ['./hero-edit-form.component.css']
+  styleUrls: ['./hero-edit-form.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeroEditFormComponent implements OnInit {
   @Output() submitForm = new EventEmitter<HeroModel>();
@@ -18,7 +19,6 @@ export class HeroEditFormComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [this.hero.name, Validators.required]
     });
-    console.log(this.hero);
   }
 
   public submit(): void {

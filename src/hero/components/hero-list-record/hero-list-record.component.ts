@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { HeroModel } from '../../models/hero.model';
 
 @Component({
   selector: 'app-hero-list-record',
   templateUrl: './hero-list-record.component.html',
-  styleUrls: ['./hero-list-record.component.scss']
+  styleUrls: ['./hero-list-record.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeroListRecordComponent {
   @Input() public hero: HeroModel;

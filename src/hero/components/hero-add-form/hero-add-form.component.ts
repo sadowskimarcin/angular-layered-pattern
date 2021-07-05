@@ -1,11 +1,17 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Output
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeroAddData } from '../../models/hero-add-data';
 
 @Component({
   selector: 'app-hero-add-form',
   templateUrl: './hero-add-form.component.html',
-  styleUrls: ['./hero-add-form.component.css']
+  styleUrls: ['./hero-add-form.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeroAddFormComponent {
   @Output() submitForm = new EventEmitter<HeroAddData>();
