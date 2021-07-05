@@ -1,8 +1,7 @@
 <div>
-  <form [formGroup]="form" (ngSubmit)="updateHero()" style="display: inline-block">
-    <input formControlName="name">
-    (#{{ hero.id }})
-    <button type="submit">update</button>
-  </form>
+  <app-hero-edit
+    (submitForm)="updateHero($event)"
+  ></app-hero-edit>
+  (#{{ hero.id }})
   <button (click)="removeHero()">remove</button>
 </div>

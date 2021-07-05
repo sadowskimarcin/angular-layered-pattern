@@ -2,27 +2,24 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { HeroFacade } from '../../hero.facade';
 import { HeroService } from '../../hero.service';
+import { HeroFormData } from '../../models/hero-form-data';
 import { HeroModel } from '../../models/hero.model';
 
 @Component({
   selector: 'app-hero-list',
   templateUrl: './hero-list.component.html',
-  styleUrls: ['./hero-list.component.scss']
+  styleUrls: ['./hero-list.component.scss'],
 })
 export class HeroListComponent implements OnDestroy {
   public heroes: HeroModel[] = [];
-  public form: FormGroup;
   private subscription = new Subscription();
 
   constructor(
-    private formBuilder: FormBuilder,
+    private heroFacade: HeroFacade,
     private heroService: HeroService
   ) {
-    this.form = this.formBuilder.group({
-      name: ['', Validators.required]
-    });
-
     this.subscription.add(
       this.heroService
         .getHeroes()
@@ -33,9 +30,8 @@ export class HeroListComponent implements OnDestroy {
     );
   }
 
-  public addHero(): void {
-    const nameControl = this.form.get('name');
-    const hero = new HeroModel(nameControl.value);
+  public addHero(heroData: HeroFormData): void {
+    const hero = new HeroModel(heroData.name);
 
     this.heroService
       .addHero(hero)
@@ -43,8 +39,6 @@ export class HeroListComponent implements OnDestroy {
       .subscribe(newHero => {
         this.heroes.push(newHero);
       });
-
-    nameControl.setValue('');
   }
 
   public removeHero(hero: HeroModel): void {

@@ -7,7 +7,6 @@
 
 <br><br>
 
-<form [formGroup]="form" (ngSubmit)="addHero()">
-  Imię: <input formControlName="name"><br>
-  <button>add hero</button>
-</form>
+<app-hero-add-form
+  (submitForm)="addHero($event)"
+></app-hero-add-form>
