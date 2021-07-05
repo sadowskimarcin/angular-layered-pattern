@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 import { HeroService } from './hero.service';
 import { HeroModel } from './models/hero.model';
 import { HeroState } from './state/hero.state';
@@ -17,33 +17,66 @@ export class HeroFacade {
     return this.heroState.getHeroes$();
   }
 
-  public loadHeroes(): Observable<HeroModel[]> {
-    return this.heroService
+  public loadHeroes(): void {
+    this.heroState.setPending(true);
+    this.heroService
       .getHeroes()
-      .pipe(tap(heroes => this.heroState.setHeroes(heroes)));
+      .pipe(
+        take(1),
+        finalize(() => this.heroState.setPending(false))
+      )
+      .subscribe(
+        heroes => this.heroState.setHeroes(heroes),
+        error => this.handleError(error),
+        () => this.heroState.setPending(false)
+      );
   }
 
-  public updateHero(hero: HeroModel): Observable<HeroModel> {
+  public updateHero(hero: HeroModel): void {
     this.heroState.setPending(true);
-    return this.heroService.updateHero(hero).pipe(
-      tap(updatedHero => this.heroState.updateHero(updatedHero)),
-      finalize(() => this.heroState.setPending(false))
-    );
+    this.heroService
+      .updateHero(hero)
+      .pipe(
+        take(1),
+        finalize(() => this.heroState.setPending(false))
+      )
+      .subscribe(
+        updatedHero => this.heroState.updateHero(updatedHero),
+        error => this.handleError(error),
+        () => this.heroState.setPending(false)
+      );
   }
 
-  public addHero(hero: HeroModel): Observable<HeroModel> {
+  public addHero(hero: HeroModel): void {
     this.heroState.setPending(true);
-    return this.heroService.addHero(hero).pipe(
-      tap(newHero => this.heroState.addHero(newHero)),
-      finalize(() => this.heroState.setPending(false))
-    );
+    this.heroService
+      .addHero(hero)
+      .pipe(
+        take(1),
+        finalize(() => this.heroState.setPending(false))
+      )
+      .subscribe(
+        newHero => this.heroState.addHero(newHero),
+        error => this.handleError(error),
+        () => this.heroState.setPending(false)
+      );
   }
 
-  public removeHero(hero: HeroModel): Observable<HeroModel> {
+  public removeHero(hero: HeroModel): void {
     this.heroState.setPending(true);
-    return this.heroService.removeHero(hero).pipe(
-      tap(() => this.heroState.removeHero(hero)),
-      finalize(() => this.heroState.setPending(false))
-    );
+    this.heroService
+      .removeHero(hero)
+      .pipe(
+        take(1),
+        finalize(() => this.heroState.setPending(false))
+      )
+      .subscribe(
+        () => this.heroState.removeHero(hero),
+        error => this.handleError(error)
+      );
+  }
+
+  private handleError(error: string): void {
+    console.log(error);
   }
 }
