@@ -56,7 +56,11 @@ export class HeroListComponent implements OnDestroy {
   }
 
   public updateHero(hero: HeroModel): void {
-    this.subscription.add(this.heroService.updateHero(hero).subscribe());
+    this.subscription.add(
+      this.heroService.updateHero(hero).subscribe(hero => {
+        console.log('update success', hero);
+      })
+    );
   }
 
   public ngOnDestroy(): void {
