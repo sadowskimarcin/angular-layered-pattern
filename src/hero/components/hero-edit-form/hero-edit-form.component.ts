@@ -17,14 +17,14 @@ export class HeroEditFormComponent implements OnInit {
 
   public ngOnInit(): void {
     this.form = this.formBuilder.group({
-      name: [this.hero.name, Validators.required]
+      title: [this.hero.title, Validators.required]
     });
   }
 
   public submit(): void {
     this.submitForm.emit({
       ...this.hero,
-      name: this.form.get('name').value
+      title: this.form.get('name').value
     });
   }
 }

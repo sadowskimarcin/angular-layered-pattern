@@ -1,3 +1,3 @@
 export interface HeroAddData {
-  name: string;
+  title: string;
 }

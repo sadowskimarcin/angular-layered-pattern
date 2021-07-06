@@ -14,7 +14,7 @@ export class AppComponent {
   constructor(private heroFacade: HeroFacade) {}
 
   public addHero(heroData: HeroAddData): void {
-    const hero = new HeroModel(heroData.name);
+    const hero = new HeroModel(heroData.title);
 
     this.heroFacade.addHero(hero);
   }

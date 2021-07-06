@@ -1,5 +1,5 @@
 export class HeroModel {
   id: number;
 
-  constructor(public name: string) {}
+  constructor(public title: string) {}
 }

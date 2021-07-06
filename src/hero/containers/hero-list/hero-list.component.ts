@@ -19,7 +19,7 @@ export class HeroListComponent {
   }
 
   public addHero(heroData: HeroAddData): void {
-    const hero = new HeroModel(heroData.name);
+    const hero = new HeroModel(heroData.title);
 
     this.heroFacade.addHero(hero);
   }
