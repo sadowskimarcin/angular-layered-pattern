@@ -19,6 +19,6 @@ import { HeroFacade } from './hero.facade';
     HeroEditFormComponent
   ],
   providers: [HeroService, HeroState, HeroFacade],
-  exports: [HeroListComponent]
+  exports: [HeroListComponent, HeroAddFormComponent]
 })
 export class HeroModule {}

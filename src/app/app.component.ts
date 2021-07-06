@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HeroFacade } from '../hero/hero.facade';
+import { HeroAddData } from '../hero/models/hero-add-data';
 import { HeroModel } from '../hero/models/hero.model';
 
 @Component({
@@ -9,11 +10,11 @@ import { HeroModel } from '../hero/models/hero.model';
 })
 export class AppComponent {
   public heroes$ = this.heroFacade.getHeroes$();
-  
+
   constructor(private heroFacade: HeroFacade) {}
 
-  public addHero(): void {
-    const hero = new HeroModel('Vladimir');
+  public addHero(heroData: HeroAddData): void {
+    const hero = new HeroModel(heroData.name);
 
     this.heroFacade.addHero(hero);
   }

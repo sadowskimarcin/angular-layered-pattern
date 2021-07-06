@@ -7,10 +7,15 @@
 <br>
 <br>
 <h1>App component</h1>
-<button (click)="addHero()">add new hero (name: Vladimir)</button>
+
+<app-hero-add-form
+  (submitForm)="addHero($event)"
+>
+</app-hero-add-form>
 
 <br><br>
 
 <select>
+  <option selected>select hero...</option>
   <option *ngFor="let hero of heroes$ | async" [value]="hero.id">{{ hero.name }}</option>
 </select>
