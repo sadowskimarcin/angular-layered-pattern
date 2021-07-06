@@ -5,7 +5,8 @@ import { HeroModel } from './models/hero.model';
 
 @Injectable()
 export class HeroService {
-  private apiUrl = 'https://60e2b8149103bd0017b474cc.mockapi.io/';
+  // private apiUrl = 'https://60e2b8149103bd0017b474cc.mockapi.io/';
+  private apiUrl = 'https://sadowskimarcin.free.beeceptor.com/';
   public heroes: HeroModel[] = [];
 
   constructor(private http: HttpClient) {}
