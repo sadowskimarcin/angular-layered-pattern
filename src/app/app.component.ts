@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HeroFireService } from '../hero/hero-fire.service';
 import { HeroFacade } from '../hero/hero.facade';
 import { HeroAddData } from '../hero/models/hero-add-data';
 import { HeroModel } from '../hero/models/hero.model';

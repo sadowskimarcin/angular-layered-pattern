@@ -9,6 +9,7 @@ import { HeroAddFormComponent } from './components/hero-add-form/hero-add-form.c
 import { HeroEditFormComponent } from './components/hero-edit-form/hero-edit-form.component';
 import { HeroState } from './state/hero.state';
 import { HeroFacade } from './hero.facade';
+import { HeroFireService } from './hero-fire.service';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
@@ -18,7 +19,7 @@ import { HeroFacade } from './hero.facade';
     HeroAddFormComponent,
     HeroEditFormComponent
   ],
-  providers: [HeroService, HeroState, HeroFacade],
+  providers: [HeroService, HeroState, HeroFacade, HeroFireService],
   exports: [HeroListComponent, HeroAddFormComponent]
 })
 export class HeroModule {}
