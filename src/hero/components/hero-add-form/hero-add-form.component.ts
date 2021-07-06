@@ -19,7 +19,7 @@ export class HeroAddFormComponent {
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
-      title: ['', Validators.required]
+      name: ['', Validators.required]
     });
   }
 

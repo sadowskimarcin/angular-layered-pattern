@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Output, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeroModel } from '../../models/hero.model';
 
@@ -17,7 +24,7 @@ export class HeroEditFormComponent implements OnInit {
 
   public ngOnInit(): void {
     this.form = this.formBuilder.group({
-      title: [this.hero.title, Validators.required]
+      name: [this.hero.title, Validators.required]
     });
   }
 

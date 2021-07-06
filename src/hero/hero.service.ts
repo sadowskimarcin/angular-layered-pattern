@@ -13,7 +13,11 @@ export class HeroService {
   constructor(private http: HttpClient) {}
 
   public getHeroes(): Observable<HeroModel[]> {
-    return this.http.get<HeroModel[]>(this.apiUrl + 'todos');
+    return this.http.get<HeroModel[]>(this.apiUrl + 'todos', {
+      params: {
+        _limit: 10
+      }
+    });
   }
 
   public addHero(hero: HeroModel): Observable<HeroModel> {
