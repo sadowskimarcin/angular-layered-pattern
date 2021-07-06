@@ -6,4 +6,11 @@
 <br>
 <br>
 <br>
+<h1>App component</h1>
 <button (click)="addHero()">add new hero (name: Vladimir)</button>
+
+<br><br>
+
+<select>
+  <option *ngFor="let hero of heroes$ | async" [value]="hero.id">{{ hero.name }}</option>
+</select>

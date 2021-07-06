@@ -8,6 +8,8 @@ import { HeroModel } from '../hero/models/hero.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  public heroes$ = this.heroFacade.getHeroes$();
+  
   constructor(private heroFacade: HeroFacade) {}
 
   public addHero(): void {
